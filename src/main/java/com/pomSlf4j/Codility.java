@@ -14,7 +14,7 @@ public class Codility {
 
     // Want to turn "debug" on & off easily
     void showMeDebug(String s){
-//        System.out.println(s);
+//        showMeDebug(s);
     }
     
     
@@ -154,12 +154,103 @@ public class Codility {
                 }
             }
         }
-
-
         return free;
+    }
+
+    //
+    // Given a string, iterate through and find blocks of empty space of same length as f
+    //
+    private int freeBlocksInString(String s, int f){
+        int free=0;
+        int l=s.length();
+        int p = 0;
+
+        showMeDebug(s);
+
+        // Step through
+        while (p<=l-f){
+
+            String t=s.substring(p,p+f);
+            showMeDebug(p + ">" + s.substring(p,p+1)+"<  >"+t+"<  " + free);
+            if(t.trim().equals("")){
+                // found a suitable block.  Add it to count. Step past it
+                free++;
+                p=p+f;
+            }else{
+                // not enough seats in this block.  can we fast track to next useful point?
+                // could write a right trim (rtrim) but for now just step to next position
+                p++;
+            }
+        }
+        showMeDebug(" "+free);
+        return free;
+    }
+
+    // Get an empty template row (seats free, but aisle markers in place).  Replace ascii with whitespace
+    public String getEmptyRowTemplate(String rowTemplate, String aisleString){
+        String empty="";
+        String c="";
+        int p =0;
+
+        while (p<rowTemplate.length()){
+            c=rowTemplate.substring(p,p+1);
+            // character at a time, so we can see if it's in our non-seat list.  If so use it, otherwise whiteSpace
+            if (!c.matches("[^"+aisleString+"]+")) {
+                empty = empty.concat(c);
+            } else {
+                empty = empty.concat(" ");
+            }
+            p++;
+        }
+        return empty;
     }
 
 
 
+
+
+    public int newTest(int numRows, String seatList, String seatLayout, int familySize){
+
+        // will need to distingusih between seats and aisles.  Use a string of valid aisle delimiters
+        final String AISLE_LIST="_|/";
+
+        // Get an empty seat map and determine how many families can fit in it as basic start points
+        String emptyTemplate=getEmptyRowTemplate(seatLayout,AISLE_LIST);
+        int emptyRowFamilies=freeBlocksInString(emptyTemplate,familySize);
+        System.out.println(seatLayout + " : " + emptyTemplate + " : " + emptyRowFamilies);
+
+        // Default to NO seats occupied, so fully available.
+        // We'll look at each occupied row and see how many families will now fit.  Drop total by (max in row - available in row)=tsken
+        int free=emptyRowFamilies*numRows;
+
+        // Gather the data then
+        String[] seats=seatList.split(" ");
+        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
+
+        HashMap<String,String> hm=new HashMap();
+        for(String s:seats){
+            // split in to row and seat index (column)
+            String r = s.substring(0,s.length()-1);
+            String c = s.substring(s.length()-1,s.length());
+
+            // if it's a new row, then give it the empty template.  Then mark the seat as taken
+            String t=hm.containsKey(r) ? hm.get(r) : emptyTemplate;
+
+            // Find the position in the string that relates to seat index / column and "occupy" it
+            int p=seatLayout.indexOf(c);
+            t = t.substring(0,p).concat(c).concat(t.substring(p+1));
+
+            // Put updated row data back in to map
+            hm.put(r,t);
+        }   // built hm
+
+        // Get each row and its seats.  Work out how many families can fit
+        for(HashMap.Entry<String,String> entry: hm.entrySet()) {
+            // in each row work out options lost & remove.  Options lost = (max in Row - free in Row)
+            free-=(emptyRowFamilies-freeBlocksInString(entry.getValue(),familySize));
+        }
+
+        return free;
+    }
 
 }

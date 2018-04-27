@@ -19,13 +19,13 @@ public class App
         Codility c=new Codility();
 
         // a string and a number of rows
-        String seatList="1a 2f 3c 1b 2g 3d 12a 4d 4g 49h 15d 15f 16e 16g 17g 17d 17e 17f 18e 18f";
+        String seatList="20a 20d 11g 1a 2f 3c 1b 2g 3d 12a 4d 4g 49h 15d 15f 16e 16g 17g 17d 17e 17f 18e 18f";
         int numRows=50;
 
         System.out.println("method 1      " + c.test(numRows,seatList));
         System.out.println("method 2      " + c.compactTest(numRows,seatList));
         System.out.println("method 3      " + c.arrayTest(numRows,seatList));
-
+        System.out.println("method 4      " + c.newTest(numRows,seatList,"abc|defg_hjk", 3));
 
 
 
