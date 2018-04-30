@@ -282,7 +282,7 @@ public class Codility {
                     showMeDebug(seat + " " + thisSeatRow.get(0) +" " + thisSeatCol.get(0)+ " " + lastSeatRow.get(0) +" " + lastSeatCol.get(0));
 
                     // new row?  If so zap the last col (so we don't match to last row) and record the new row
-                    if(!thisSeatRow.equals(lastSeatRow)){
+                    if(!thisSeatRow.get(0).equals(lastSeatRow.get(0))){
                         lastSeatCol.set(0,"");                  // as long as it's not a-k anything'll do
                         lastSeatRow.set(0,thisSeatRow.get(0));  // could also set this every time we handle a seat
                     }
