@@ -6,6 +6,8 @@ package com.pomSlf4j;
 
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -252,5 +254,72 @@ public class Codility {
 
         return free;
     }
+
+    // based loosely on Andrew's stream stuff
+    public int streamTest(int numRows, String seatList){
+
+        // Need to use first element of an arrayList (rather than a straightforward variable) as doing stuff in stream??
+        ArrayList<String> thisSeatCol=new ArrayList<>();    // column is bit at end of seat (a,b,f etc)
+        ArrayList<String> lastSeatCol=new ArrayList<>();
+        ArrayList<String> thisSeatRow=new ArrayList<>();    // row is bit before col
+        ArrayList<String> lastSeatRow=new ArrayList<>();
+        ArrayList<Integer> freeSeatSets=new ArrayList<>(); freeSeatSets.add(3*numRows);
+
+        // Initialise the "variables" in readiness for use
+        lastSeatCol.add(""); lastSeatRow.add("");
+        thisSeatCol.add(""); thisSeatRow.add("");
+
+        if(!seatList.isEmpty()){
+            // there are seats. separate them, lose dupes, sort and step through one at a time
+            Arrays.stream(seatList.split(" ")).distinct().sorted().forEach(seat->
+                {
+                    int free=freeSeatSets.get(0);       // set local variable on basis of proper "variable"
+
+                    // Split into row & col, rather than have substrings all over the place
+                    thisSeatCol.set(0,seat.substring(  seat.length()-1));
+                    thisSeatRow.set(0,seat.substring(0,seat.length()-1));
+
+                    showMeDebug(seat + " " + thisSeatRow.get(0) +" " + thisSeatCol.get(0)+ " " + lastSeatRow.get(0) +" " + lastSeatCol.get(0));
+
+                    // new row?  If so zap the last col (so we don't match to last row) and record the new row
+                    if(!thisSeatRow.equals(lastSeatRow)){
+                        lastSeatCol.set(0,"");                  // as long as it's not a-k anything'll do
+                        lastSeatRow.set(0,thisSeatRow.get(0));  // could also set this every time we handle a seat
+                    }
+
+                    // the interesting bit
+                    if        ((thisSeatCol.get(0).matches("[abc]{1,}")) && !lastSeatCol.get(0).matches("[abc]{1,}")){
+                        showMeDebug("lost  left");
+                        free--;
+                    } else if ((thisSeatCol.get(0).matches("[hjk]{1,}")) && !lastSeatCol.get(0).matches("[hjk]{1,}")){
+                        showMeDebug("lost right");
+                        free--;
+                    } else if ((thisSeatCol.get(0).matches("[ef]{1,}"))  && !lastSeatCol.get(0).matches("[ef]{1,}")){
+                        showMeDebug("lost mid 1");
+                        free--;
+                    } else if ((thisSeatCol.get(0).matches("[g]{1,}"))   &&  lastSeatCol.get(0).matches("[d]{1,}")) {
+                        showMeDebug("lost mid 2");
+                        free--;
+                    }
+
+                    // record current seat column for next time (and record the current state of free seats)
+                    lastSeatCol.set(0,thisSeatCol.get(0));
+                    freeSeatSets.set(0,free);
+                }
+            );
+        }
+        return freeSeatSets.get(0);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }
