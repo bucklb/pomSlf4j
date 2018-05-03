@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 public class Codility {
@@ -38,7 +40,7 @@ public class Codility {
 
         // split in to array & splat to screen
         String[] seats=seatList.split(" ");
-        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
+//        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
         int free=3*numRows;
 
         // For each row, gather all seats sold in that row via hashmap
@@ -78,7 +80,7 @@ public class Codility {
 //        String seatList="1a 2f 3c 1b 2g 3d 12a 4d 4g 49h";
         // split in to array & splat to screen
         String[] seats=seatList.split(" ");
-        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
+//        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
         int free=3*numRows;
 
         // For each row, gather all seats sold in that row via hashmap
@@ -119,7 +121,7 @@ public class Codility {
     public int arrayTest(int numRows, String seatList){
         int free=3*numRows;
         String[] seats=seatList.split(" ");
-        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
+//        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
         final String DIRTY="x";
 
         // Set up array of banks of seats.  Make sure we have the room
@@ -133,12 +135,18 @@ public class Codility {
             // Could look that c is in abcdefghjk & r is between 0 & numRows-1
 
             // Need to work out which "bank" seats the seat index sits in and if not dirty then lose an option
-            if("abc".indexOf(c) > -1        && StringUtils.isEmpty(banks[r][0])) {
-                banks[r][0]=DIRTY;
-                free--;
-            } else if("hjk".indexOf(c) > -1 && StringUtils.isEmpty(banks[r][2])) {
-                banks[r][2]=DIRTY;
-                free--;
+            if(       "abc".indexOf(c) > -1 ){
+                if (StringUtils.isEmpty(banks[r][0])) {
+                    banks[r][0] = DIRTY;
+                    free--;
+//                    System.out.println(s + " " + " left gone");
+                }
+            } else if("hjk".indexOf(c) > -1 ){
+                if (StringUtils.isEmpty(banks[r][2])) {
+                    banks[r][2] = DIRTY;
+                    free--;
+//                    System.out.println(s + " " + "right gone");
+                }
             } else {
                 // must be in middle bank (as not in left or right)
                 // What is the state of the middle bank?  If it's already DIRTY then move on
@@ -149,9 +157,11 @@ public class Codility {
                         // in middle of middle = instant dirty OR if bank is already tainted then make fully dirty
                         banks[r][1] = DIRTY;
                         free--;
+//                        System.out.println(s + " " + " mid  gone");
                     } else {
                         // an end seat, so mark that bank is no longer pristine
                         banks[r][1]=c;
+//                        System.out.println(s + " " + " mid  mrkd");
                     }
                 }
             }
@@ -219,7 +229,7 @@ public class Codility {
         // Get an empty seat map and determine how many families can fit in it as basic start points
         String emptyTemplate=getEmptyRowTemplate(seatLayout,AISLE_LIST);
         int emptyRowFamilies=freeBlocksInString(emptyTemplate,familySize);
-        System.out.println(seatLayout + " : " + emptyTemplate + " : " + emptyRowFamilies);
+//        System.out.println(seatLayout + " : " + emptyTemplate + " : " + emptyRowFamilies);
 
         // Default to NO seats occupied, so fully available.
         // We'll look at each occupied row and see how many families will now fit.  Drop total by (max in row - available in row)=tsken
@@ -227,7 +237,7 @@ public class Codility {
 
         // Gather the data then
         String[] seats=seatList.split(" ");
-        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
+//        for(String s:seats){            System.out.print(s + " : ");        };showMeDebug("");
 
         HashMap<String,String> hm=new HashMap();
         for(String s:seats){
@@ -312,6 +322,17 @@ public class Codility {
     }
 
 
+        public int jeffTest(final int n, final String s) {
+            return n * 3 -  (Pattern.compile("\\D").splitAsStream(s.replaceAll("\\s", "")).collect(Collectors.toSet()).stream().map(
+                    r -> {
+                        int i = 0;
+                        if (Pattern.compile("\\b"+r+"[abc]").matcher(s).find())i++;
+                        if (Pattern.compile("\\b"+r+"[hjk]").matcher(s).find())i++;
+                        if (Pattern.compile("(\\b"+r+"[ef])|(\\b"+r+"d.*\\b"+r+"g)|(\\b"+r+"g.*\\b"+r+"d)").matcher(s).find())i++;
+                        return i;
+                    }
+            ).mapToInt(Integer::intValue).sum());
+        }
 
 
 
