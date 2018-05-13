@@ -327,6 +327,7 @@ public class Codility {
         // For each row, see if it occurs at the start of a "word" that contains a,b or c and similarly h, j or k
         // For middle bank look for "word starting with row & containing e or f OR word starting row & d followed by word row & g (or vice versa)
         // My version is a bit lazy & allows check with row=space (on basis it won't ever match)
+        // Might get away without "word match", and use leading space, if we always append a leading space
         public int jeffTest(final int n, final String s) {
 //            return n * 3 -  (Pattern.compile("\\D").splitAsStream(s.replaceAll("\\s", "")).collect(Collectors.toSet()).stream().map(
             return n * 3 -  (Pattern.compile("\\D").splitAsStream(s).distinct().map(

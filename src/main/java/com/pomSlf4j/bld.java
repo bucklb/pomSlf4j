@@ -15,11 +15,11 @@ import javafx.util.Builder;
  */
 public class bld{
 
+    // a bld object can ONLY be constructed using a Bldr object
     private bld(Bldr bldr){
         this.name=bldr.name;
         this.job=bldr.job;
     }
-
 
     String name,job;
     public String getName(){
@@ -29,11 +29,7 @@ public class bld{
         return this.job;
     }
 
-
-
-
-    // Use ready defined builder template (Builder<T>)
-//    public static class Bldr implements Builder<bld>{
+    // May need to revisit this amd establish what the builder should be looking like
     public static class Bldr {
         String name,job;
         public bld build() {
@@ -55,14 +51,18 @@ public class bld{
 
     }
 
-
+    /* Can't really recall what this actually helped with, if anything.  Websites all use above approach ^^^^
     public abstract static class Builder<B extends Builder<B>>{
         public abstract B type(String type);
-
     }
-
-
-
+    // Use ready defined builder template (Builder<T>)
+    public static class BldrImpl implements Builder<bld> {
+        @Override
+        public bld type(String type) {
+            return null;
+        }
+    }
+    */
 
 
 }

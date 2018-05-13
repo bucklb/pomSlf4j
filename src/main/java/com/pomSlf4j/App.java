@@ -29,6 +29,12 @@ public class App
     public static void main( String[] args )
     {
 
+
+
+
+
+
+
         System.out.println("-- codility");
 
         // a string and a number of rows
@@ -44,7 +50,7 @@ public class App
 
 
 
-if (0==1)  {
+if (0==0)  {
 
 
         System.out.println("-- calling java 8 stuff");
@@ -67,6 +73,7 @@ if (0==1)  {
 
         bld y = new bld.Bldr("Harry").build();
         System.out.println(y.getName() + " >> " + y.getJob());
+        System.out.println(x.getName() + " >> " + x.getJob());
 
 
         System.out.println("-- playing with logger stuff");

@@ -15,27 +15,41 @@ import java.util.stream.Stream;
  */
 public class Lambda {
 
+    //
+    // FileFilter seems a candidate for lambda
+    //
     public void arse() {
 
         final String endsWith="-ms";
 
         System.out.println("Hello Directories!");
 
-        // Create a fileFilter up front, complete with name
+        // Create a fileFilter up front, complete with name.  It's an implementation (effectively) so we need to provide
+        // details of what accept is meant to do
         FileFilter namedFF=new FileFilter() {
+            @Override
             public boolean accept(File path) {
                 return path.toString().endsWith(endsWith);
             }
         };
 
+        // usingNamed  - creates a FFclass in readiness, and then use it
+        // usingAnonFF - create an inner class on the fly ( that in other cases would be an implement of FileFilter),
+        //               that exists to provide an "accept" function
+        // usingLambda - a lambda that relies on easy mapping File->isDirectory (so use an existing function that suits us)
+        //               the lamdda takes a file and realises that isDirectory wil work as contents of an "accept" function
+        // vsingLambda - a lambda that is more hand crafted, rather than uses pre-existing single function
+
         // Plug the predefined filter IN. Had to set things up in advance. Not likely to be able to set internal values now!
         File[] usingNamedFF = new File("C:\\Users\\buckl").listFiles(namedFF);
         System.out.println("usingNamedFF" + " -> " + usingNamedFF[0]+ " -> " + usingNamedFF[1]);
+
 
         // On the fly.  Not using a named instance & can tweak on the fly ...
         File[] usingAnonFF = new File("C:\\Users\\buckl").listFiles(
                 new FileFilter() {
                     // we haven't created a named variable
+                    @Override
                     public boolean accept(File anonpathname) {
                         return anonpathname.toString().endsWith(endsWith);
                     }
