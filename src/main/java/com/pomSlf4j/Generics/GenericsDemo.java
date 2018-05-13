@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 //
 public class GenericsDemo {
 
+
     public static void main(String[] args) {
 
         GenericsTests t=new GenericsTests();
