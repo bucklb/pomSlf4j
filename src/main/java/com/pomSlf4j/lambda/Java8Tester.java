@@ -1,4 +1,4 @@
-package com.pomSlf4j;
+package com.pomSlf4j.lambda;
 
 // As well as defining a lambda, would be nice to show it being passed around as a first class entity (i.e. an "object" in its own right)
 //
@@ -18,7 +18,7 @@ public class Java8Tester {
 
 
 
-
+    // Merge the creation of lambdas and using them.  Specifically aiming to pass the lambda/function as a parameter
     public void testJava8() {
         Java8Tester tester = new Java8Tester();
 

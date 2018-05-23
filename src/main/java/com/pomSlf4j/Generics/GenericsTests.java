@@ -1,6 +1,5 @@
 package com.pomSlf4j.Generics;
 
-import java.lang.reflect.GenericSignatureFormatError;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;

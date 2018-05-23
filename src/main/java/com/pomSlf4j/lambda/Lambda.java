@@ -1,4 +1,4 @@
-package com.pomSlf4j;
+package com.pomSlf4j.lambda;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -18,9 +18,10 @@ public class Lambda {
     //
     // FileFilter seems a candidate for lambda
     //
-    public void arse() {
+    public void exercise() {
 
-        final String endsWith="-ms";
+        // Looking at using a filter on what the file names end with.  Doesn't seem to need to be Final ...
+        String endsWith="-ms";
 
         System.out.println("Hello Directories!");
 
@@ -40,6 +41,8 @@ public class Lambda {
         //               the lamdda takes a file and realises that isDirectory wil work as contents of an "accept" function
         // vsingLambda - a lambda that is more hand crafted, rather than uses pre-existing single function
 
+
+
         // Plug the predefined filter IN. Had to set things up in advance. Not likely to be able to set internal values now!
         File[] usingNamedFF = new File("C:\\Users\\buckl").listFiles(namedFF);
         System.out.println("usingNamedFF" + " -> " + usingNamedFF[0]+ " -> " + usingNamedFF[1]);
@@ -57,9 +60,12 @@ public class Lambda {
         );
         System.out.println("usingAnonFF " + " -> " + usingAnonFF[0]+ " -> " + usingAnonFF[1]);
 
+
         // Not even needing to explicitly specify that we are doing FileFilter, but it limits options
+        //                                                                    VVVVVVVVVVVVVVVVV
         File[] usingLambda = new File("C:\\Users\\buckl").listFiles(File::isDirectory);
         System.out.println("usingLamda " + " -> " + usingLambda[0]+ " -> " + usingLambda[1]);
+
 
         // This next bit does what usingAnonFF does in a fraction of the lines
         File[] vsingLambda = new File("C:\\Users\\buckl").listFiles(f->f.toString().endsWith(endsWith));

@@ -1,4 +1,4 @@
-package com.pomSlf4j;
+package com.pomSlf4j.codility;
 
 //
 // Few options as per the codility tests
