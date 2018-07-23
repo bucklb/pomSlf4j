@@ -6,6 +6,7 @@ package com.pomSlf4j;
  * Want to see if I can do the logging guff via pom rather than JAR files in classpath
  *
  */
+import com.pomSlf4j.Callback.CallbackDemo;
 import com.pomSlf4j.lambda.Anon;
 import com.pomSlf4j.lambda.Java8Tester;
 import com.pomSlf4j.lambda.Lambda;
@@ -25,9 +26,17 @@ public class App
 
 
 
-if (0==0)  {
+if (0==0) {
+
+        System.out.println("-- calling callback stuff");
+        CallbackDemo c = new CallbackDemo();
+        c.showCallback(true);
+        c.showCallback(false);
 
 
+
+
+} else {
         System.out.println("-- calling java 8 stuff");
         Java8Tester j = new Java8Tester();
         j.testJava8();
