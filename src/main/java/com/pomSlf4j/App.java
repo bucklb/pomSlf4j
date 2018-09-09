@@ -7,6 +7,7 @@ package com.pomSlf4j;
  *
  */
 import com.pomSlf4j.Callback.CallbackDemo;
+import com.pomSlf4j.dateStuff.DateStuffTest;
 import com.pomSlf4j.lambda.Anon;
 import com.pomSlf4j.lambda.Java8Tester;
 import com.pomSlf4j.lambda.Lambda;
@@ -28,10 +29,14 @@ public class App
 
 if (0==0) {
 
-        System.out.println("-- calling callback stuff");
-        CallbackDemo c = new CallbackDemo();
-        c.showCallback(true);
-        c.showCallback(false);
+        DateStuffTest dateStuffTest=new DateStuffTest();
+        dateStuffTest.runTests();
+
+
+//        System.out.println("-- calling callback stuff");
+//        CallbackDemo c = new CallbackDemo();
+//        c.showCallback(true);
+//        c.showCallback(false);
 
 
 
