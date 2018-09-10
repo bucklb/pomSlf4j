@@ -8,6 +8,9 @@ package com.pomSlf4j;
  */
 import com.pomSlf4j.Callback.CallbackDemo;
 import com.pomSlf4j.dateStuff.DateStuffTest;
+import com.pomSlf4j.dateStuff.DateStuffToo;
+import com.pomSlf4j.dateStuff.Kwok;
+import com.pomSlf4j.dateStuff.Sol;
 import com.pomSlf4j.lambda.Anon;
 import com.pomSlf4j.lambda.Java8Tester;
 import com.pomSlf4j.lambda.Lambda;
@@ -32,6 +35,17 @@ if (0==0) {
         DateStuffTest dateStuffTest=new DateStuffTest();
         dateStuffTest.runTests();
 
+        System.out.println("-=-=-=-=-=-=-=-");
+        DateStuffToo d2=new DateStuffToo();
+        d2.runTests();
+
+        System.out.println("-=-=-=-=-=-=-=-");
+        Kwok kwok=new Kwok();
+        kwok.runTests();
+
+        System.out.println("-=-=-=-=-=-=-=-");
+        Sol sol=new Sol();
+        sol.runTests();
 
 //        System.out.println("-- calling callback stuff");
 //        CallbackDemo c = new CallbackDemo();
