@@ -6,7 +6,7 @@ import java.util.*;
 
 public class DateStuffToo {
 
-    private static boolean dbg=false;
+    private static boolean dbg=true;
     private static String LINE_BREAK="\n";
     private static String TERMINATOR="Sun 24:00-24:00";
     private static String DOW_FROM_TIMES=" ";

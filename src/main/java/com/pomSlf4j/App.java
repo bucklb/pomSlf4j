@@ -7,6 +7,7 @@ package com.pomSlf4j;
  *
  */
 import com.pomSlf4j.Callback.CallbackDemo;
+import com.pomSlf4j.Picking.Apples;
 import com.pomSlf4j.dateStuff.DateStuffTest;
 import com.pomSlf4j.dateStuff.DateStuffToo;
 import com.pomSlf4j.dateStuff.Kwok;
@@ -32,6 +33,13 @@ public class App
 
 if (0==0) {
 
+        Apples apples=new Apples();
+        int[] trees={6,1,4,6,3,2,7,4};
+        System.out.println(apples.solve(trees,3,2));
+
+        System.out.println(apples.solve(trees,4,6));
+
+        /*
         DateStuffTest dateStuffTest=new DateStuffTest();
         dateStuffTest.runTests();
 
@@ -46,6 +54,7 @@ if (0==0) {
         System.out.println("-=-=-=-=-=-=-=-");
         Sol sol=new Sol();
         sol.runTests();
+        */
 
 //        System.out.println("-- calling callback stuff");
 //        CallbackDemo c = new CallbackDemo();
