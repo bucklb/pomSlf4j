@@ -107,4 +107,23 @@ public class AppleTest {
         Assert.assertEquals(340,pick);
     }
 
+    // Description threatens huge numbers.  Check we won't break with a few MAX_INT's
+    @Test
+    public void goLarge(){
+        long DIVISOR = 1000000007;     // Pass back values that are modulo'd with this
+        Apples apples=new Apples();
+        int[] trees={Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,10,100,20,20,100,10,40,1,1,1};
+        for(int i=0; i<trees.length;i++) System.out.println(trees[i]);
+        long pick=apples.solve(trees,4,4);
+        // A tad contrived, but struggled to get the expected sum to work ...
+        long exp=0;
+        exp+=Integer.MAX_VALUE; // System.out.println(exp);
+        exp+=Integer.MAX_VALUE; // System.out.println(exp);
+        exp+=Integer.MAX_VALUE; // System.out.println(exp);
+        exp+= 10+(100+20+20+100); // the other 5 values needed
+        exp = exp % DIVISOR;
+        Assert.assertEquals( exp ,pick);
+    }
+
+
 }

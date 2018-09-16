@@ -7,12 +7,13 @@ import static java.lang.Math.max;
 // Picking apples optimally
 public class Apples {
 
-    boolean dbg=true;
+    boolean DBG=true;                           // Control verbosity (without importing logging)
+    static final long DIVISOR = 1000000007;     // Pass back values that are modulo'd with this
 
     // How many apples can be picked from each set of n trees (n is a function of the picker)
-    private int[] calculateApplePickByTree(int[] treeApples, int n){
+    private long[] calculateApplePickByTree(int[] treeApples, int n){
         int N=treeApples.length;
-        int apples[]=new int[N];
+        long apples[]=new long[N];
 
         // Set count for first tree (tree zero).
         for(int  i = 0; i < n; i++) {
@@ -30,14 +31,14 @@ public class Apples {
     // Maximum apples that can be picked starting from any tree onward (including the tree)
     // Pass in array of possible pick counts starting from each tree.
     // Passing in n just saves some unnecessary calculation
-    private int[] calculateMaxApplePickByTree(int[] applePick, int n){
+    private long[] calculateMaxApplePickByTree(long[] applePick, int n){
 
         // Could avoid calculating maximum values at start of tree list (as well as at the end)
         int N = applePick.length;
-        int maxApplePick[] = new int[N];
+        long maxApplePick[] = new long[N];
 
         // Work from end .... tree zero will be the maximum possible
-        int maxApples = 0;
+        long maxApples = 0;
         for(int i = N-n; i >= 0; i--){
             maxApples = max(maxApples, applePick[i]);
             maxApplePick[i] = maxApples;
@@ -48,7 +49,7 @@ public class Apples {
 
 
     // Orchard with people that can pick K & L trees, but not overlapping. Ought to try & be efficient
-    public long solve(int[] treeApples, int K, int L){
+    public int solve(int[] treeApples, int K, int L){
         // Looking to avoid iterating through EVERYTHING, but may want to drop back to hard way
         boolean newWay = true;
         int numTrees = treeApples.length;
@@ -60,15 +61,15 @@ public class Apples {
 
         } else if ( numTrees == (L+K) ){
             // Don't get to play much.  Just return the total (and show how we can use a stream)
-            return Arrays.stream(treeApples).sum();
+            return (int)(Arrays.stream(treeApples).sum() % DIVISOR);
 
         } else {
             // Can we save some effort if the two pickers share the same choice (i.e K==L)?
             // - don't have to go through stuff TWICE !!! Maybe later ...
 
             int[] numberOfTreesToPick = {K, L, K+L};
-            int[][] apples =    new int[2][];
-            int[][] maxApples = new int[2][];
+            long[][] apples =    new long[2][];
+            long[][] maxApples = new long[2][];
 
             // For each tree, what's the total over the next "n" trees, including this one
             for(int i = 0; i < 2; i++) {
@@ -77,7 +78,7 @@ public class Apples {
                 apples[picker] = calculateApplePickByTree( treeApples, numberOfTreesToPick[picker]);
                 maxApples[picker] = calculateMaxApplePickByTree( apples[picker], numberOfTreesToPick[picker]);
             }
-            if (dbg) {
+            if (DBG) {
                 for (int i = 0; i < numTrees; i++) System.out.println(i + " : " + apples[0][i] + " : " + apples[1][i] +
                                                                       " || " + maxApples[0][i] + " : " + maxApples[1][i]);
             }
@@ -106,16 +107,16 @@ public class Apples {
                         // best the other picker can manage from where they are allowed to start
                         thisPick += maxApples[otherPicker][otherStartTree];
 
-                        if ( dbg ) System.out.println("Picker : " + thisPicker + ", tree : " + thisStartTree + ", pick : " +thisPick);
+                        if ( DBG ) System.out.println("Picker : " + thisPicker + ", tree : " + thisStartTree + ", pick : " +thisPick);
 
                         // Have we achieved optimal already ??  If so we could just stop (not hugely elegant though)
                         if(thisPick == maxApples[thisPicker][0]+maxApples[otherPicker][0]){
-                            if( dbg ) System.out.println("Found OPTIMAL pick of : " + thisPick);
-                            return thisPick;
+                            if( DBG ) System.out.println("Found OPTIMAL pick of : " + thisPick);
+                            return (int)(thisPick % DIVISOR);
                         }
 
                         // Update tally
-                        maxPick=max(maxPick,thisPick);
+                        maxPick=max( maxPick, thisPick);
 
                     } else {
                         // spin through every combination
@@ -123,13 +124,14 @@ public class Apples {
                             thisPick=apples[thisPicker][j]
                                     +apples[otherPicker][k];
 
-                            if (dbg) System.out.println(i + " : " + apples[thisPicker][j] + " " + j + " : " + k + apples[otherPicker][k] + " >> " + thisPick);
-                            if (thisPick>maxPick) maxPick=thisPick;
+                            if (DBG) System.out.println(i + " : " + apples[thisPicker][j] + " " + j + " : " + k + apples[otherPicker][k] + " >> " + thisPick);
+                            if ( thisPick > maxPick) maxPick=thisPick;
                         }
                     }
                 }
             }
-            return maxPick;
+            System.out.println(maxPick);
+            return (int) (maxPick % DIVISOR);
         }
     }
 }
