@@ -35,7 +35,7 @@ if (0==0) {
 
         Apples apples=new Apples();
         int[] trees={6,1,4,6,3,2,7,4};
-        System.out.println(apples.solve(trees,3,2));
+        System.out.println(apples.solve(trees,2,3));
 
         System.out.println(apples.solve(trees,4,6));
 
